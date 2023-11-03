@@ -18,6 +18,7 @@ export default function App() {
       scopes: ["activity:read_all"],
       redirectUri: makeRedirectUri({
         native: process.env.EXPO_PUBLIC_STRAVA_REDIRECT_URL,
+        preferLocalhost: true,
       }),
     },
     discovery
