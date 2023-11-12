@@ -1,4 +1,4 @@
-# strava-memories-react-native
+# Memories
 
 ## install
 
