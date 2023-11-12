@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
-import { useAuth } from "../store/AuthContext";
 import { useEffect } from "react";
+import { useAuth } from "../store/AuthContext";
 
 export default function HomeScreen() {
   const { authState, onLogout } = useAuth();

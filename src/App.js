@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Router from "./router";
+import Router from "./Router";
 
 import { AuthProvider } from "./store/AuthContext";
 
