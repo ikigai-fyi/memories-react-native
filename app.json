@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "strava-memories-react-native",
-    "slug": "strava-memories-react-native",
+    "name": "Memories",
+    "slug": "memories",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,18 +12,41 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "fyi.ikigai.memories"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "widgets": [
+        {
+          "name": "Memories",
+          "label": "Memories",
+          "minWidth": "320dp",
+          "minHeight": "120dp",
+          "description": "Widgets for Strava",
+          "previewImage": "./assets/widget-preview.png",
+          "updatePeriodMillis": 1800000
+        }
+      ],
+      "package": "fyi.ikigai.memories"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a59efe93-cc37-44be-bc55-24a6a773a143"
+      }
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
   }
 }
