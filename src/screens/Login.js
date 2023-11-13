@@ -9,13 +9,16 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Image source={require("../assets/ikigai.png")} style={styles.icon} />
+        <Image
+          source={require("../../assets/ikigai.png")}
+          style={styles.icon}
+        />
         <Text style={styles.title}>Memories</Text>
         <Text style={styles.subTitle}>Widgets for Strava</Text>
       </View>
       <TouchableOpacity onPress={onLogin}>
         <Image
-          source={require("../assets/strava_button.png")}
+          source={require("../../assets/strava_button.png")}
           style={styles.stravaButton}
         />
       </TouchableOpacity>
