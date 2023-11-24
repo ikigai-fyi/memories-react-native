@@ -46,7 +46,6 @@ export function AuthProvider({ children }) {
           preferLocalhost: true,
         }),
       });
-
       const stravaResponse = await stravaRequest.promptAsync(discovery);
 
       if (stravaResponse?.type === "success") {
