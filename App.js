@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import Router from "./Router";
+import Router from "./src/Router";
 
-import { AuthProvider } from "./store/AuthContext";
+import { AuthProvider } from "./src/store/AuthContext";
 
 export default function App() {
   return (

@@ -1,25 +1,26 @@
-import * as React from "react";
-
+import React from "react";
 import { TouchableOpacity, Text, Image, View, StyleSheet } from "react-native";
 import { useAuth } from "../store/AuthContext";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen() {
   const { onLogin } = useAuth();
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
+      <View style={styles.logoContainer}>
         <Image
           source={require("../../assets/ikigai.png")}
-          style={styles.icon}
+          style={styles.logo}
         />
-        <Text style={styles.title}>Memories</Text>
-        <Text style={styles.subTitle}>Widgets for Strava</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.titleText}>Memories</Text>
+          <Text style={[styles.titleText, styles.mirroredText]}>Strava</Text>
+        </View>
       </View>
       <TouchableOpacity onPress={onLogin}>
         <Image
           source={require("../../assets/strava_button.png")}
-          style={styles.stravaButton}
+          style={styles.buttonImage}
         />
       </TouchableOpacity>
     </View>
@@ -31,22 +32,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flex: 1,
-    marginTop: 150,
     marginBottom: 100,
   },
-  titleContainer: {
+  logoContainer: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    gap: 8,
   },
-  icon: {
-    maxHeight: 164,
-    maxWidth: 164,
-    borderRadius: 41,
+  logo: {
+    maxHeight: 130,
+    maxWidth: 130,
+    borderRadius: 25,
   },
-  title: {
+  textContainer: {
+    marginTop: 6,
+    marginLeft: 12,
+  },
+  titleText: {
+    fontSize: 32,
+    fontWeight: "900",
+  },
+  mirroredText: {
+    marginTop: -14,
     fontSize: 30,
-    fontWeight: "bold",
+    transform: [{ rotate: "180deg" }, { scaleX: -1 }],
   },
-  subTitle: { fontSize: 15, fontWeight: "bold" },
-  stravaButton: { maxHeight: 50, resizeMode: "contain" },
+  buttonImage: {
+    maxHeight: 64,
+    resizeMode: "contain",
+  },
 });

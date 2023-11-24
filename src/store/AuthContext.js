@@ -66,6 +66,8 @@ export function AuthProvider({ children }) {
 
         const session = await memoriesReponse.json();
 
+        console.log(session);
+
         await SecureStore.setItemAsync("session", JSON.stringify(session));
 
         setAuthState({ isLoading: false, session });
