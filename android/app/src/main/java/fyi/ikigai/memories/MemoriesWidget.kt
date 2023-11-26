@@ -1,45 +1,53 @@
 package fyi.ikigai.memories
 
-import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.widget.RemoteViews
+import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
+import androidx.glance.Button
+import androidx.glance.GlanceId
+import androidx.glance.GlanceModifier
+import androidx.glance.action.actionStartActivity
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.provideContent
+import androidx.glance.layout.Alignment
+import androidx.glance.layout.Column
+import androidx.glance.layout.Row
+import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.padding
+import androidx.glance.text.Text
 
-/**
- * Implementation of App Widget functionality.
- */
-class MemoriesWidget : AppWidgetProvider() {
-    override fun onUpdate(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
-    ) {
-        // There may be multiple widgets active, so update all of them
-        for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId)
+class MemoriesWidget : GlanceAppWidget() {
+
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        // Load data needed to render the AppWidget.
+        // Use `withContext` to switch to another thread for long running
+        // operations.
+
+        provideContent {
+            // create your AppWidget here
+            MyContent()
         }
     }
 
-    override fun onEnabled(context: Context) {
-        // Enter relevant functionality for when the first widget is created
-    }
-
-    override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
-    }
-
-    companion object {
-        fun updateAppWidget(
-            context: Context, appWidgetManager: AppWidgetManager,
-            appWidgetId: Int
+    @Composable
+    private fun MyContent() {
+        Column(
+            modifier = GlanceModifier.fillMaxSize(),
+            verticalAlignment = Alignment.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val widgetText: CharSequence = context.getString(R.string.appwidget_text)
-            // Construct the RemoteViews object
-            val views = RemoteViews(context.packageName, R.layout.memories_widget)
-            views.setTextViewText(R.id.appwidget_text, widgetText)
-
-            // Instruct the widget manager to update the widget
-            appWidgetManager.updateAppWidget(appWidgetId, views)
+            Text(text = "Where to?", modifier = GlanceModifier.padding(12.dp))
+            Row(horizontalAlignment = Alignment.CenterHorizontally) {
+                Button(
+                    text = "Home",
+                    onClick = actionStartActivity<MainActivity>()
+                )
+                Button(
+                    text = "Work",
+                    onClick = actionStartActivity<MainActivity>()
+                )
+            }
         }
     }
 }
