@@ -203,6 +203,9 @@ dependencies {
 
     implementation "androidx.glance:glance-appwidget:1.0.0"
     implementation "androidx.glance:glance-material3:1.0.0"
+    implementation "com.google.android.glance.tools:appwidget-host:0.2.2"
+    implementation "com.google.android.glance.tools:appwidget-configuration:0.2.2"
+    debugImplementation "com.google.android.glance.tools:appwidget-viewer:0.2.2"
 }
 
 apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json')"].execute(null, rootDir).text.trim(), "../native_modules.gradle");

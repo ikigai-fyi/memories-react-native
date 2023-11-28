@@ -1,21 +1,19 @@
 package fyi.ikigai.memories
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
-import androidx.glance.Button
+import androidx.compose.ui.graphics.Color
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.padding
 import androidx.glance.text.Text
+import androidx.glance.text.TextStyle
+import androidx.glance.unit.ColorProvider
 
 class MemoriesWidget : GlanceAppWidget() {
 
@@ -26,28 +24,29 @@ class MemoriesWidget : GlanceAppWidget() {
 
         provideContent {
             // create your AppWidget here
-            MyContent()
+            Content()
         }
     }
 
     @Composable
-    private fun MyContent() {
+    private fun Content() {
+        Text(text = "⏳")
         Column(
             modifier = GlanceModifier.fillMaxSize(),
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Where to?", modifier = GlanceModifier.padding(12.dp))
-            Row(horizontalAlignment = Alignment.CenterHorizontally) {
-                Button(
-                    text = "Home",
-                    onClick = actionStartActivity<MainActivity>()
-                )
-                Button(
-                    text = "Work",
-                    onClick = actionStartActivity<MainActivity>()
-                )
+            Row {
+                Text(text = "⏳")
+            }
+            Row {
+                Text(text = "Feb 19, 2023", style = TextStyle(color = ColorProvider(Color(0xFFFF0000))))
+            }
+            Row {
+                Text(text= "26,03km")
+                Text(text= "450 m")
             }
         }
     }
 }
+
