@@ -28,10 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="2dp"
-            android:shadowColor="#000000"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="5"
             android:text="Run at Plaine Joux"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -43,11 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Jun 13, 2021"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:shadowColor="#000000"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="5" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -60,11 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="20,05 km"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:shadowColor="#000000"
-                android:shadowDx="3"
-                android:shadowDy="3"
-                android:shadowRadius="5" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/height"
@@ -74,11 +62,7 @@
                 android:paddingLeft="8dp"
                 android:text="110m"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:shadowColor="#000000"
-                android:shadowDx="3"
-                android:shadowDy="3"
-                android:shadowRadius="5" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>

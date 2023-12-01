@@ -1,10 +1,4 @@
-import {
-  Button,
-  View,
-  StyleSheet,
-  TextInput,
-  NativeModules,
-} from "react-native";
+import { Button, Text, View, StyleSheet, NativeModules } from "react-native";
 import { useState, useEffect } from "react";
 import { useAuth } from "../store/AuthContext";
 
@@ -12,45 +6,48 @@ const { RNSharedWidget } = NativeModules;
 
 export default function HomeScreen() {
   const { authState, onLogout } = useAuth();
-  const [widgetValue, setWidgetValue] = useState("vide");
+  const [widgetValue, setWidgetValue] = useState({});
 
-  const onSubmit = () => {
-    RNSharedWidget.setData(
-      "json",
-      JSON.stringify({ value: widgetValue }),
-      (status) => {
-        console.log("START ============");
-        console.log(status);
-        console.log("END ============");
+  const fetchActivity = async () => {
+    const response = await fetch(
+      "https://api-dev.ikigai.fyi/rest/activities/random",
+      {
+        headers: {
+          Authorization: `Bearer ${authState.session.jwt}`,
+        },
       }
     );
-    console.log("widgetValue = ", widgetValue);
+
+    const activity = await response.json();
+
+    RNSharedWidget.setData(
+      "json",
+      JSON.stringify({ value: activity }),
+      () => {}
+    );
+
+    setWidgetValue(activity);
+
+    console.log("widgetValue = ", activity);
   };
 
   useEffect(() => {
-    const fetchActivity = async () => {
-      const response = await fetch(
-        "https://api-dev.ikigai.fyi/rest/activities/random",
-        {
-          headers: {
-            Authorization: `Bearer ${authState.session.jwt}`,
-          },
-        }
-      );
-
-      const activity = await response.json();
-    };
-    // fetchActivity();
+    fetchActivity();
   }, []);
+
+  const onRefresh = async () => {
+    await fetchActivity();
+  };
 
   return (
     <View style={styles.container}>
-      <TextInput
+      {/* <TextInput
         style={styles.textInput}
-        value={widgetValue}
+        value="widgetValue"
         onChangeText={(value) => setWidgetValue(value)}
-      />
-      <Button title="Submit" onPress={onSubmit} />
+      /> */}
+      <Text style={styles.textInput}>{widgetValue.name}</Text>
+      <Button title="Refresh" onPress={onRefresh} />
 
       {/* <WidgetPreviewScreen /> */}
     </View>

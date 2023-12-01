@@ -3,7 +3,20 @@ package fyi.ikigai.memories;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.widget.RemoteViews;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Implementation of App Widget functionality.
@@ -12,14 +25,45 @@ public class MemoriesWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+        try {
+            SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
+            String stringJsonData = sharedPref.getString("json", "{}");
+            JSONObject widgetData = new JSONObject(stringJsonData);
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.memories_widget);
-        // views.setTextViewText(R.id.appwidget_text, widgetText);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.memories_widget);
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+
+
+            Log.e("MEMORIES", widgetData.getJSONObject("value").getString("name"));
+
+            views.setTextViewText(R.id.name, widgetData.getJSONObject("value").getString("name"));
+            views.setTextViewText(R.id.date, widgetData.getJSONObject("value").getString("start_datetime"));
+            views.setTextViewText(R.id.distance, widgetData.getJSONObject("value").getString("distance_in_meters"));
+            views.setTextViewText(R.id.height, widgetData.getJSONObject("value").getString("total_elevation_gain_in_meters"));
+            URL url = new URL(widgetData.getJSONObject("value").getString("picture_url"));
+
+
+
+            Thread thread = new Thread(() -> {
+                Bitmap bmp = null;
+                try {
+                    bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                views.setImageViewBitmap(R.id.image, bmp);
+
+                appWidgetManager.updateAppWidget(appWidgetId, views);
+            });
+
+            thread.start();
+
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
