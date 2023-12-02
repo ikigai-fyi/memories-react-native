@@ -26,14 +26,15 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="fyi.ikigai.memories"/>
+        <data android:scheme="fyi.ikigai.memories"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
-    <receiver android:name=".MemoriesWidget" android:exported="false">
+    <receiver android:name=".NewMemoriesWidgetReceiver" android:exported="false">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
       </intent-filter>
-      <meta-data android:name="android.appwidget.provider" android:resource="@xml/memories_widget_info"/>
+      <meta-data android:name="android.appwidget.provider" android:resource="@xml/new_memories_widget_info"/>
     </receiver>
   </application>
 </manifest>
