@@ -38,10 +38,10 @@ import coil.ImageLoader
 import coil.request.ErrorResult
 import coil.request.SuccessResult
 import fyi.ikigai.memories.MainActivity
-import fyi.ikigai.memories.RNSharedWidget
+import fyi.ikigai.memories.ReactBridge
 
 
-class NewMemoriesWidget : GlanceAppWidget() {
+class Widget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
@@ -53,11 +53,11 @@ class NewMemoriesWidget : GlanceAppWidget() {
     private fun MyContent() {
         val context = LocalContext.current
         val prefs = currentState<Preferences>()
-        val currentName = prefs[RNSharedWidget.currentName]
-        val currentDate = prefs[RNSharedWidget.currentDate]
-        val currentDistance = prefs[RNSharedWidget.currentDistance]
-        val currentHeight = prefs[RNSharedWidget.currentHeight]
-        val url = prefs[RNSharedWidget.currentImageUrl]
+        val currentName = prefs[ReactBridge.currentName]
+        val currentDate = prefs[ReactBridge.currentDate]
+        val currentDistance = prefs[ReactBridge.currentDistance]
+        val currentHeight = prefs[ReactBridge.currentHeight]
+        val url = prefs[ReactBridge.currentImageUrl]
         var image by remember(url) { mutableStateOf<Bitmap?>(null) }
 
         LaunchedEffect(url) {
@@ -66,33 +66,42 @@ class NewMemoriesWidget : GlanceAppWidget() {
 
         if (image != null) {
             Column(
-                modifier = GlanceModifier
-                    .fillMaxSize()
-                    .padding(16.dp)
+                modifier = GlanceModifier.fillMaxSize().padding(16.dp)
                     .background(Color(android.graphics.Color.WHITE))
                     .background(ImageProvider(image!!), ContentScale.Crop)
                     .clickable(actionStartActivity<MainActivity>()),
                 verticalAlignment = Alignment.Bottom,
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(text = currentName.toString(), style = TextStyle(
-                    color = ColorProvider(Color.White),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                ))
-                Text(text = currentDate.toString(), style = TextStyle(
-                    color = ColorProvider(Color.White),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold))
+                Text(
+                    text = currentName.toString(), style = TextStyle(
+                        color = ColorProvider(Color.White),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Text(
+                    text = currentDate.toString(), style = TextStyle(
+                        color = ColorProvider(Color.White),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
                 Row() {
-                    Text(text = currentDistance.toString(), style = TextStyle(
-                        color = ColorProvider(Color.White),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold))
-                    Text(text = currentHeight.toString(), style = TextStyle(
-                        color = ColorProvider(Color.White),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold))
+                    Text(
+                        text = currentDistance.toString(), style = TextStyle(
+                            color = ColorProvider(Color.White),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                    Text(
+                        text = currentHeight.toString(), style = TextStyle(
+                            color = ColorProvider(Color.White),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
                 }
             }
         } else {

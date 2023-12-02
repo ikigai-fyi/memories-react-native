@@ -2,7 +2,7 @@ import { Button, Text, View, StyleSheet, NativeModules } from "react-native";
 import { useState, useEffect } from "react";
 import { useAuth } from "../store/AuthContext";
 
-const { RNSharedWidget } = NativeModules;
+const { ReactBridge } = NativeModules;
 
 export default function HomeScreen() {
   const { authState, onLogout } = useAuth();
@@ -20,15 +20,9 @@ export default function HomeScreen() {
 
     const activity = await response.json();
 
-    RNSharedWidget.setData(
-      "json",
-      JSON.stringify({ value: activity }),
-      () => {}
-    );
+    ReactBridge.setData(JSON.stringify({ value: activity }), () => {});
 
     setWidgetValue(activity);
-
-    console.log("widgetValue = ", activity);
   };
 
   useEffect(() => {
