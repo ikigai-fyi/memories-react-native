@@ -66,7 +66,7 @@ class Widget : GlanceAppWidget() {
 
         if (image != null) {
             Column(
-                modifier = GlanceModifier.fillMaxSize().padding(16.dp)
+                modifier = GlanceModifier.fillMaxSize().padding(12.dp)
                     .background(Color(android.graphics.Color.WHITE))
                     .background(ImageProvider(image!!), ContentScale.Crop)
                     .clickable(actionStartActivity<MainActivity>()),
@@ -76,31 +76,28 @@ class Widget : GlanceAppWidget() {
                 Text(
                     text = currentName.toString(), style = TextStyle(
                         color = ColorProvider(Color.White),
-                        fontSize = 18.sp,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
-                    )
+                    ), maxLines = 1,
+                    modifier = GlanceModifier.padding(bottom = 2.dp)
                 )
                 Text(
                     text = currentDate.toString(), style = TextStyle(
                         color = ColorProvider(Color.White),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                        fontSize = 14.sp
+                        ), maxLines = 1
                 )
                 Row() {
                     Text(
                         text = currentDistance.toString(), style = TextStyle(
-                            color = ColorProvider(Color.White),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                            color = ColorProvider(Color.White), fontSize = 14.sp
+                        ), maxLines = 1
                     )
                     Text(
                         text = currentHeight.toString(), style = TextStyle(
                             color = ColorProvider(Color.White),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                            fontSize = 14.sp
+                        ), maxLines = 1
                     )
                 }
             }

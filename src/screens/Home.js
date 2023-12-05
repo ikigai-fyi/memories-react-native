@@ -1,6 +1,7 @@
 import { Button, Text, View, StyleSheet, NativeModules } from "react-native";
 import { useState, useEffect } from "react";
 import { useAuth } from "../store/AuthContext";
+import { format } from "../objects";
 
 const { ReactBridge } = NativeModules;
 
@@ -20,7 +21,7 @@ export default function HomeScreen() {
 
     const activity = await response.json();
 
-    ReactBridge.setData(JSON.stringify({ value: activity }), () => {});
+    ReactBridge.setData(JSON.stringify(format(activity)), () => {});
 
     setWidgetValue(activity);
   };

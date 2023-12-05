@@ -1,31 +1,19 @@
 {
   "expo": {
-    "name": "memories-react-native",
+    "name": "Memories",
     "slug": "memories-react-native",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/ikigai.png",
     "userInterfaceStyle": "light",
     "scheme": "fyi.ikigai.memories",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "fyi.ikigai.memories"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
       "package": "fyi.ikigai.memories"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }

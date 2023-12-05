@@ -14,7 +14,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class ReactBridge(var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
+class ReactBridge(private var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     override fun getName(): String {
         return "ReactBridge"
     }
@@ -35,15 +35,12 @@ class ReactBridge(var context: ReactApplicationContext) : ReactContextBaseJavaMo
                     updateAppWidgetState(context, PreferencesGlanceStateDefinition, it) { pref ->
                         pref.toMutablePreferences().apply {
                             if (json != null) {
-                                this[currentName] = json.getJSONObject("value").getString("name")
-                                this[currentDate] =
-                                    json.getJSONObject("value").getString("start_datetime")
-                                this[currentDistance] =
-                                    json.getJSONObject("value").getString("distance_in_meters")
-                                this[currentHeight] = json.getJSONObject("value")
-                                    .getString("total_elevation_gain_in_meters")
-                                this[currentImageUrl] =
-                                    json.getJSONObject("value").getString("picture_url")
+                                this[currentName] = json.getString("name")
+                                this[currentDate] = json.getString("date")
+                                this[currentDistance] = json.getString("distance_in_meters")
+                                this[currentHeight] =
+                                    json.getString("total_elevation_gain_in_meters")
+                                this[currentImageUrl] = json.getString("picture_url")
                             }
                         }
                     }
@@ -51,7 +48,7 @@ class ReactBridge(var context: ReactApplicationContext) : ReactContextBaseJavaMo
                 }
             }
 
-            callback(glanceIds.size)
+            callback(null, glanceIds.size)
         }
     }
 
