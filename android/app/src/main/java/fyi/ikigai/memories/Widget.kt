@@ -54,10 +54,10 @@ class Widget : GlanceAppWidget() {
         val context = LocalContext.current
         val prefs = currentState<Preferences>()
         val currentName = prefs[ReactBridge.currentName]
-        val currentDate = prefs[ReactBridge.currentDate]
+        val currentTime = prefs[ReactBridge.currentTime]
         val currentDistance = prefs[ReactBridge.currentDistance]
-        val currentHeight = prefs[ReactBridge.currentHeight]
-        val url = prefs[ReactBridge.currentImageUrl]
+        val currentElevation = prefs[ReactBridge.currentElevation]
+        val url = prefs[ReactBridge.currentPicture]
         var image by remember(url) { mutableStateOf<Bitmap?>(null) }
 
         LaunchedEffect(url) {
@@ -82,7 +82,7 @@ class Widget : GlanceAppWidget() {
                     modifier = GlanceModifier.padding(bottom = 2.dp)
                 )
                 Text(
-                    text = currentDate.toString(), style = TextStyle(
+                    text = currentTime.toString(), style = TextStyle(
                         color = ColorProvider(Color.White),
                         fontSize = 14.sp
                         ), maxLines = 1
@@ -94,10 +94,11 @@ class Widget : GlanceAppWidget() {
                         ), maxLines = 1
                     )
                     Text(
-                        text = currentHeight.toString(), style = TextStyle(
+                        text = currentElevation.toString(), style = TextStyle(
                             color = ColorProvider(Color.White),
                             fontSize = 14.sp
-                        ), maxLines = 1
+                        ), maxLines = 1,
+                        modifier = GlanceModifier.padding(start = 6.dp)
                     )
                 }
             }

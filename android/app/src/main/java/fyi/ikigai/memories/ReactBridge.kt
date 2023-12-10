@@ -1,6 +1,7 @@
 package fyi.ikigai.memories
 
 import Widget
+import android.util.Log
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
@@ -36,11 +37,11 @@ class ReactBridge(private var context: ReactApplicationContext) : ReactContextBa
                         pref.toMutablePreferences().apply {
                             if (json != null) {
                                 this[currentName] = json.getString("name")
-                                this[currentDate] = json.getString("date")
-                                this[currentDistance] = json.getString("distance_in_meters")
-                                this[currentHeight] =
-                                    json.getString("total_elevation_gain_in_meters")
-                                this[currentImageUrl] = json.getString("picture_url")
+                                this[currentTime] = json.getString("time")
+                                this[currentDistance] = json.getString("distance")
+                                this[currentElevation] =
+                                    json.getString("elevation")
+                                this[currentPicture] = json.getString("picture")
                             }
                         }
                     }
@@ -54,9 +55,9 @@ class ReactBridge(private var context: ReactApplicationContext) : ReactContextBa
 
     companion object {
         val currentName = stringPreferencesKey("name")
-        val currentDate = stringPreferencesKey("date")
+        val currentTime = stringPreferencesKey("time")
         val currentDistance = stringPreferencesKey("distance")
-        val currentHeight = stringPreferencesKey("height")
-        val currentImageUrl = stringPreferencesKey("url")
+        val currentElevation = stringPreferencesKey("elevation")
+        val currentPicture = stringPreferencesKey("picture")
     }
 }

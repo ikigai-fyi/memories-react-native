@@ -1,17 +1,25 @@
-import { Button, Text, View, StyleSheet, NativeModules } from "react-native";
+import {
+  Button,
+  Text,
+  View,
+  StyleSheet,
+  NativeModules,
+  ImageBackground,
+} from "react-native";
 import { useState, useEffect } from "react";
 import { useAuth } from "../store/AuthContext";
-import { format } from "../objects";
+import GridSkeleton from "../ui/GridSkeleton";
+import { format } from "../lib/activity";
 
 const { ReactBridge } = NativeModules;
 
 export default function HomeScreen() {
-  const { authState, onLogout } = useAuth();
+  const { authState } = useAuth();
   const [widgetValue, setWidgetValue] = useState({});
 
-  const fetchActivity = async () => {
+  const fetchActivity = async (refresh = false) => {
     const response = await fetch(
-      "https://api-dev.ikigai.fyi/rest/activities/random",
+      `https://api-dev.ikigai.fyi/rest/memories/current?refresh=${refresh}`,
       {
         headers: {
           Authorization: `Bearer ${authState.session.jwt}`,
@@ -19,9 +27,9 @@ export default function HomeScreen() {
       }
     );
 
-    const activity = await response.json();
+    const activity = format((await response.json()).activity);
 
-    ReactBridge.setData(JSON.stringify(format(activity)), () => {});
+    ReactBridge.setData(JSON.stringify(activity), () => {});
 
     setWidgetValue(activity);
   };
@@ -31,32 +39,67 @@ export default function HomeScreen() {
   }, []);
 
   const onRefresh = async () => {
-    await fetchActivity();
+    await fetchActivity(true);
   };
 
   return (
     <View style={styles.container}>
-      {/* <TextInput
-        style={styles.textInput}
-        value="widgetValue"
-        onChangeText={(value) => setWidgetValue(value)}
-      /> */}
-      <Text style={styles.textInput}>{widgetValue.name}</Text>
+      <GridSkeleton />
+      <View style={styles.bordered}>
+        <ImageBackground
+          source={{ uri: widgetValue?.picture }}
+          resizeMode="cover"
+          style={styles.preview}
+        >
+          <View style={styles.textContainer}>
+            <Text style={styles.nameStyle}>{widgetValue.name}</Text>
+            <Text style={styles.textStyle}>{widgetValue.time}</Text>
+            <Text style={styles.textStyle}>
+              {widgetValue.distance} {widgetValue.elevation}
+            </Text>
+          </View>
+        </ImageBackground>
+      </View>
       <Button title="Refresh" onPress={onRefresh} />
-
-      {/* <WidgetPreviewScreen /> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
   },
-  textInput: {
-    backgroundColor: "white",
-    padding: 12,
+  bordered: {
+    borderRadius: 20,
+    overflow: "hidden",
+    elevation: 5,
+    marginBottom: 40,
+  },
+  preview: {
+    width: 300,
+    height: 250,
+    justifyContent: "flex-end",
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "grey",
+  },
+  textContainer: {
+    padding: 10,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  nameStyle: {
+    fontWeight: "bold",
+    fontSize: 18,
+    fontFamily: "sans-serif",
+    color: "white",
+  },
+  textStyle: {
+    fontSize: 16,
+    fontFamily: "sans-serif",
+    color: "white",
   },
 });
