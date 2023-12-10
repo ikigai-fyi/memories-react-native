@@ -1,15 +1,16 @@
 import {
-  Button,
   Text,
   View,
   StyleSheet,
   NativeModules,
   ImageBackground,
 } from "react-native";
-import { useState, useEffect } from "react";
-import { useAuth } from "../store/AuthContext";
-import GridSkeleton from "../ui/GridSkeleton";
 import { format } from "../lib/activity";
+import { useAuth } from "../store/AuthContext";
+import { useRef, useState, useEffect } from "react";
+import AwesomeButton from "react-native-really-awesome-button";
+import GridSkeleton from "../ui/GridSkeleton";
+import LottieView from "lottie-react-native";
 
 const { ReactBridge } = NativeModules;
 
@@ -38,9 +39,13 @@ export default function HomeScreen() {
     fetchActivity();
   }, []);
 
-  const onRefresh = async () => {
+  const onRefresh = async (next) => {
     await fetchActivity(true);
+    confettiRef.current?.play(0);
+    next();
   };
+
+  const confettiRef = useRef(null);
 
   return (
     <View style={styles.container}>
@@ -60,7 +65,27 @@ export default function HomeScreen() {
           </View>
         </ImageBackground>
       </View>
-      <Button title="Refresh" onPress={onRefresh} />
+
+      <AwesomeButton
+        progress
+        onPress={onRefresh}
+        activityColor="white"
+        backgroundActive="#cc4200"
+        backgroundColor="#fc5201"
+      >
+        Refresh activity!
+      </AwesomeButton>
+
+      <View style={styles.lottie} pointerEvents="none">
+        <LottieView
+          ref={confettiRef}
+          source={require("../../assets/confetti.json")}
+          autoPlay={false}
+          loop={false}
+          style={styles.lottie}
+          resizeMode="cover"
+        />
+      </View>
     </View>
   );
 }
@@ -101,5 +126,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "sans-serif",
     color: "white",
+  },
+  lottie: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
   },
 });
