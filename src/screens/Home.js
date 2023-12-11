@@ -4,6 +4,7 @@ import {
   StyleSheet,
   NativeModules,
   ImageBackground,
+  Linking,
 } from "react-native";
 import { format } from "../lib/activity";
 import { useAuth } from "../store/AuthContext";
@@ -45,6 +46,13 @@ export default function HomeScreen() {
     next();
   };
 
+  const onOpenStrava = async (next) => {
+    await Linking.openURL(
+      `https://strava.com/activities/${widgetValue.stravaId}`
+    );
+    next();
+  };
+
   const confettiRef = useRef(null);
 
   return (
@@ -66,15 +74,27 @@ export default function HomeScreen() {
         </ImageBackground>
       </View>
 
-      <AwesomeButton
-        progress
-        onPress={onRefresh}
-        activityColor="white"
-        backgroundActive="#cc4200"
-        backgroundColor="#fc5201"
-      >
-        Refresh activity!
-      </AwesomeButton>
+      <View style={styles.buttonsRow}>
+        <AwesomeButton
+          style={styles.button}
+          progress
+          onPress={onRefresh}
+          activityColor="white"
+          backgroundActive="#cc4200"
+          backgroundColor="#fc5201"
+        >
+          Refresh activity
+        </AwesomeButton>
+
+        <AwesomeButton
+          style={styles.button}
+          onPress={onOpenStrava}
+          activityColor="white"
+          backgroundColor="#FC1A00"
+        >
+          Open in Strava
+        </AwesomeButton>
+      </View>
 
       <View style={styles.lottie} pointerEvents="none">
         <LottieView
@@ -134,5 +154,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 1000,
+  },
+  button: {
+    margin: 12,
+  },
+  buttonsRow: {
+    flexDirection: "row",
   },
 });

@@ -10,5 +10,6 @@ export function format(activity) {
     elevation: `${activity.total_elevation_gain_in_meters}m`,
     type: activity.sport_type,
     picture: activity.picture_url,
+    stravaId: activity.strava_id,
   };
 }
