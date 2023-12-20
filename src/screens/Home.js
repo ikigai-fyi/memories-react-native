@@ -80,8 +80,7 @@ export default function HomeScreen() {
           progress
           onPress={onRefresh}
           activityColor="white"
-          backgroundActive="#cc4200"
-          backgroundColor="#fc5201"
+          backgroundColor="dodgerblue"
         >
           Refresh activity
         </AwesomeButton>
@@ -90,7 +89,7 @@ export default function HomeScreen() {
           style={styles.button}
           onPress={onOpenStrava}
           activityColor="white"
-          backgroundColor="#FC1A00"
+          backgroundColor="#fc5201"
         >
           Open in Strava
         </AwesomeButton>
@@ -121,11 +120,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     elevation: 5,
-    marginBottom: 40,
   },
   preview: {
     width: 300,
-    height: 250,
+    height: 200,
     justifyContent: "flex-end",
     borderRadius: 20,
     overflow: "hidden",
@@ -155,10 +153,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1000,
   },
-  button: {
-    margin: 12,
-  },
   buttonsRow: {
     flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 20,
+    width: "100%",
   },
 });
