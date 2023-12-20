@@ -6,7 +6,7 @@ const windowWidth = Dimensions.get("window").width;
 const squareSize = windowWidth / 6;
 
 const GridSkeleton = () => {
-  const rows = new Array(8).fill(0);
+  const rows = new Array(6).fill(0);
   const cols = new Array(4).fill(0);
 
   return (

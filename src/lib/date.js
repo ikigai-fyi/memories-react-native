@@ -18,23 +18,30 @@ export function timeElapsed(date) {
   let interval = seconds / 31536000; // Number of seconds in a year
 
   if (interval > 1) {
-    return Math.floor(interval) + " years ago";
+    return `${Math.floor(interval)} ${pluralize("year", interval)} ago`;
   }
   interval = seconds / 2592000; // Number of seconds in a month
   if (interval > 1) {
-    return Math.floor(interval) + " months ago";
+    return `${Math.floor(interval)} ${pluralize("month", interval)} ago`;
   }
   interval = seconds / 86400; // Number of seconds in a day
   if (interval > 1) {
-    return Math.floor(interval) + " days ago";
+    return `${Math.floor(interval)} ${pluralize("day", interval)} ago`;
   }
   interval = seconds / 3600; // Number of seconds in an hour
   if (interval > 1) {
-    return Math.floor(interval) + " hours ago";
+    return `${Math.floor(interval)} ${pluralize("hour", interval)} ago`;
   }
   interval = seconds / 60; // Number of seconds in a minute
   if (interval > 1) {
-    return Math.floor(interval) + " minutes ago";
+    return `${Math.floor(interval)} ${pluralize("minute", interval)} ago`;
   }
-  return Math.floor(seconds) + " seconds ago";
+  return `${Math.floor(seconds)} ${pluralize("second", interval)} ago`;
+}
+
+function pluralize(word, count) {
+  if (count >= 2) {
+    return `${word}s`;
+  }
+  return word;
 }
