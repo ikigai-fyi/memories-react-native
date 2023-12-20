@@ -7,12 +7,17 @@
     "icon": "./assets/ikigai.png",
     "userInterfaceStyle": "light",
     "scheme": "fyi.ikigai.memories",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fyi.ikigai.memories"
+      "bundleIdentifier": "fyi.ikigai.memories",
+      "infoPlist": {
+        "UIBackgroundModes": ["fetch", "processing"],
+        "BGTaskSchedulerPermittedIdentifiers": [
+          "com.transistorsoft.fetch",
+          "com.transistorsoft.refresh"
+        ]
+      }
     },
     "android": {
       "package": "fyi.ikigai.memories"
@@ -21,6 +26,7 @@
       "eas": {
         "projectId": "bc012106-63d8-446e-893c-753792558e62"
       }
-    }
+    },
+    "plugins": ["react-native-background-fetch"]
   }
 }
