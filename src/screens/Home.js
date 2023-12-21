@@ -2,6 +2,7 @@ import {
   Text,
   View,
   StyleSheet,
+  NativeEventEmitter,
   NativeModules,
   ImageBackground,
   Linking,
@@ -38,6 +39,16 @@ export default function HomeScreen() {
 
   useEffect(() => {
     fetchActivity();
+
+    const eventEmitter = new NativeEventEmitter(NativeModules);
+    let eventListener = eventEmitter.addListener("refresh", (event) => {
+      console.log(event);
+    });
+
+    // // Removes the listener once unmounted
+    // return () => {
+    //   eventListener.remove();
+    // };
   }, []);
 
   const onRefresh = async (next) => {

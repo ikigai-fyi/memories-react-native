@@ -1,7 +1,6 @@
 package fyi.ikigai.memories
 
 import Widget
-import android.util.Log
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
@@ -11,6 +10,7 @@ import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -18,6 +18,10 @@ import org.json.JSONObject
 class ReactBridge(private var context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
     override fun getName(): String {
         return "ReactBridge"
+    }
+
+    init {
+        setContext(context)
     }
 
     private val coroutineScope = MainScope()
@@ -53,11 +57,22 @@ class ReactBridge(private var context: ReactApplicationContext) : ReactContextBa
         }
     }
 
+    public fun notifyJS() {
+        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+            .emit("refresh", {})
+    }
+
     companion object {
         val currentName = stringPreferencesKey("name")
         val currentTime = stringPreferencesKey("time")
         val currentDistance = stringPreferencesKey("distance")
         val currentElevation = stringPreferencesKey("elevation")
         val currentPicture = stringPreferencesKey("picture")
+
+        private lateinit var reactContext: ReactApplicationContext
+
+        fun setContext(context: ReactApplicationContext) {
+            reactContext=context
+        }
     }
 }
