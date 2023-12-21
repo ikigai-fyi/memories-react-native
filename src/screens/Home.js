@@ -12,6 +12,7 @@ import { useRef, useState, useEffect } from "react";
 import AwesomeButton from "react-native-really-awesome-button";
 import GridSkeleton from "../ui/GridSkeleton";
 import LottieView from "lottie-react-native";
+import BackgroundFetch from "react-native-background-fetch";
 
 const { ReactBridge } = NativeModules;
 
@@ -36,8 +37,30 @@ export default function HomeScreen() {
     setWidgetValue(activity);
   };
 
+  const setBackgroundTask = async () => {
+    const onEvent = async (taskId) => {
+      console.log("[BackgroundFetch] task: ", taskId);
+      await fetchActivity(true);
+      BackgroundFetch.finish(taskId);
+    };
+
+    const onTimeout = async (taskId) => {
+      console.warn("[BackgroundFetch] TIMEOUT task: ", taskId);
+      BackgroundFetch.finish(taskId);
+    };
+
+    let status = await BackgroundFetch.configure(
+      { minimumFetchInterval: 15 },
+      onEvent,
+      onTimeout
+    );
+
+    console.log("[BackgroundFetch] configure status: ", status);
+  };
+
   useEffect(() => {
     fetchActivity();
+    setBackgroundTask();
   }, []);
 
   const onRefresh = async (next) => {
