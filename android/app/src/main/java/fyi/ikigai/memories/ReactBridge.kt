@@ -25,9 +25,7 @@ class ReactBridge(private var context: ReactApplicationContext) : ReactContextBa
     private val glanceAppWidget: GlanceAppWidget = Widget()
 
     @ReactMethod
-    fun setData(data: String?, callback: Callback) {
-        val json = data?.let { JSONObject(it) }
-
+    fun setToken(token: String?, callback: Callback) {
         coroutineScope.launch {
             val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(Widget::class.java)
 
@@ -35,13 +33,8 @@ class ReactBridge(private var context: ReactApplicationContext) : ReactContextBa
                 glanceId.let {
                     updateAppWidgetState(context, PreferencesGlanceStateDefinition, it) { pref ->
                         pref.toMutablePreferences().apply {
-                            if (json != null) {
-                                this[currentName] = json.getString("name")
-                                this[currentTime] = json.getString("time")
-                                this[currentDistance] = json.getString("distance")
-                                this[currentElevation] =
-                                    json.getString("elevation")
-                                this[currentPicture] = json.getString("picture")
+                            if (token != null) {
+                                this[currentToken] = token
                             }
                         }
                     }
@@ -54,10 +47,6 @@ class ReactBridge(private var context: ReactApplicationContext) : ReactContextBa
     }
 
     companion object {
-        val currentName = stringPreferencesKey("name")
-        val currentTime = stringPreferencesKey("time")
-        val currentDistance = stringPreferencesKey("distance")
-        val currentElevation = stringPreferencesKey("elevation")
-        val currentPicture = stringPreferencesKey("picture")
+        val currentToken = stringPreferencesKey("token")
     }
 }

@@ -39,6 +39,9 @@ import coil.request.ErrorResult
 import coil.request.SuccessResult
 import fyi.ikigai.memories.MainActivity
 import fyi.ikigai.memories.ReactBridge
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
 
 
 class Widget : GlanceAppWidget() {
@@ -49,10 +52,30 @@ class Widget : GlanceAppWidget() {
         }
     }
 
+    public fun update(refresh: Boolean = false) {
+
+        val url = "https://api-dev.ikigai.fyi/rest/memories/current?refresh=$refresh"
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            println(response.body?.string())
+        }
+    }
+
     @Composable
     private fun MyContent() {
         val context = LocalContext.current
         val prefs = currentState<Preferences>()
+
+        val currentToken = prefs[ReactBridge.currentToken]
+
+
+
         val currentName = prefs[ReactBridge.currentName]
         val currentTime = prefs[ReactBridge.currentTime]
         val currentDistance = prefs[ReactBridge.currentDistance]

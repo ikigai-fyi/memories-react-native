@@ -1,7 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { AuthRequest, makeRedirectUri } from "expo-auth-session";
+import { NativeModules } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as WebBrowser from "expo-web-browser";
+
+const { ReactBridge } = NativeModules;
 
 const AuthContext = createContext(null);
 WebBrowser.maybeCompleteAuthSession();
